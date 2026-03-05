@@ -6,7 +6,7 @@ This project used https://github.com/ArgoreOfficial/SPETS as a reference to unde
 
 ## Installation
 
-1. Download `sprocket_tools.zip` containing `__init__.py`
+1. Download latest `sprocket_tools-x.x.x.zip` release
 2. Open Blender
 3. Go to Edit > Preferences > Add-ons
 4. Click the down arrow in the top-right-hand corner
