@@ -1,14 +1,4 @@
 # __init__.py
-bl_info = {
-    "name": "Sprocket Tools",
-    "author": "bmtwl",
-    "version": (1, 0, 0),
-    "blender": (3, 6, 0),
-    "location": "View3D > Sidebar > Sprocket",
-    "description": "Import and export Sprocket tank blueprints",
-    "category": "Import-Export",
-}
-
 import bpy
 from bpy.props import StringProperty, IntProperty, CollectionProperty, PointerProperty, EnumProperty, BoolProperty, FloatProperty
 from bpy.types import PropertyGroup, UIList, Operator, Panel, AddonPreferences
