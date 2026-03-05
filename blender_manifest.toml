@@ -1,0 +1,22 @@
+schema_version = "1.0.0"
+
+id = "sprocket_tools"
+version = "1.0.0"
+name = "Sprocket Tools"
+tagline = "Import and export Sprocket tank blueprints"
+maintainer = "Brian Marshall"
+type = "add-on"
+
+website = "https://github.com/bmtwl/sprocket_tools_for_blender"
+
+tags = ["Game Engine", "Import-Export", "Modeling", "Workflow"]
+
+blender_version_min = "4.2.0"
+
+license = [
+  "SPDX:AGPL-3.0-or-later",
+]
+
+[permissions]
+files = "Required to import/export Sprocket blueprint data"
+
