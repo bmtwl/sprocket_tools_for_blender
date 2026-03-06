@@ -9,7 +9,7 @@ type = "add-on"
 
 website = "https://github.com/bmtwl/sprocket_tools_for_blender"
 
-tags = ["Game Engine", "Import-Export", "Modeling"]
+tags = ["Game Engine", "Import-Export"]
 
 blender_version_min = "4.2.0"
 
