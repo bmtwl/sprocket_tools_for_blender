@@ -15,20 +15,20 @@ This project used https://github.com/ArgoreOfficial/SPETS as a reference to unde
 
 ## Configuration
 
-### Automatic Path Detection
+### Sprocket Path setup
 
-The addon automatically detects your Sprocket data directory when you press "Auto-Detect Sprocket Path":
+The addon automatically fills in the Sprocket data directory with the defaults for your platform:
 
 - **Windows**: `%USERPROFILE%\Documents\My Games\Sprocket`
 - **Linux (Proton)**: `~/.steam/steam/steamapps/compatdata/1674170/pfx/drive_c/users/steamuser/My Documents/My Games/Sprocket`
 
 ### Manual Path Configuration
 
-If auto-detection fails:
+If the default fails:
 
 1. Go to Edit > Preferences > Add-ons
 2. Find "Sprocket Tools" and expand it
-3. Set "Sprocket Data Path" manually, or click "Auto-Detect Sprocket Path"
+3. Set "Sprocket Data Path" manually
 
 ## Usage
 
