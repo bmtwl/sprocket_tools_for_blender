@@ -1,76 +1,41 @@
 # __init__.py
 import bpy
-from bpy.props import StringProperty, IntProperty, CollectionProperty, PointerProperty, EnumProperty, BoolProperty, FloatProperty
+from bpy.props import StringProperty, IntProperty, CollectionProperty, PointerProperty, EnumProperty, FloatProperty
 from bpy.types import PropertyGroup, UIList, Operator, Panel, AddonPreferences
 import json
-import os
 import platform
 from pathlib import Path
 import mathutils
 import bmesh
 from mathutils import Vector
 
+def get_default_sprocket_path():
+    system = platform.system()
+    home = Path.home()
+
+    if system == "Windows":
+        return home / "Documents" / "My Games" / "Sprocket"
+    else:
+        return home / ".steam" / "steam" / "steamapps" / "compatdata" / "1674170" / "pfx" / "drive_c" / "users" / "steamuser" / "My Documents" / "My Games" / "Sprocket"
+
 class SprocketPreferences(AddonPreferences):
-    bl_idname = __name__
+    bl_idname = __package__
 
     sprocket_path: StringProperty(
         name="Sprocket Data Path",
         subtype='DIR_PATH',
-        default=""
+        default=str(get_default_sprocket_path())
     )
 
     def draw(self, context):
         layout = self.layout
         layout.prop(self, "sprocket_path")
-        layout.operator("sprocket.detect_paths")
-
-class SPROCKET_OT_detect_paths(Operator):
-    bl_idname = "sprocket.detect_paths"
-    bl_label = "Auto-Detect Sprocket Path"
-
-    def execute(self, context):
-        prefs = context.preferences.addons[__name__].preferences
-        prefs.sprocket_path = str(detect_sprocket_path())
-        self.report({'INFO'}, f"Detected: {prefs.sprocket_path}")
-        return {'FINISHED'}
-
-def detect_sprocket_path():
-    system = platform.system()
-    home = Path.home()
-
-    if system == "Windows":
-        import ctypes
-        from ctypes import wintypes
-
-        FOLDERID_Documents = "FDD39AD0-238F-46AF-ADB4-6C85480369C7"
-
-        ptr = ctypes.wintypes.LPWSTR()
-        ctypes.windll.shell32.SHGetKnownFolderPath(
-            ctypes.create_unicode_buffer(FOLDERID_Documents),
-            0,
-            None,
-            ctypes.byref(ptr)
-        )
-        docs = Path(ptr.value)
-        ctypes.windll.ole32.CoTaskMemFree(ptr)
-        return docs / "My Games" / "Sprocket"
-    else:
-        proton_paths = [
-            home / ".steam" / "steam" / "steamapps" / "compatdata" / "1674170" / "pfx" / "drive_c" / "users" / "steamuser" / "My Documents" / "My Games" / "Sprocket",
-            home / ".local" / "share" / "Steam" / "steamapps" / "compatdata" / "1674170" / "pfx" / "drive_c" / "users" / "steamuser" / "My Documents" / "My Games" / "Sprocket",
-        ]
-
-        for path in proton_paths:
-            if path.exists():
-                return path
-
-        return home / "Documents" / "My Games" / "Sprocket"
 
 def get_sprocket_path(context):
-    prefs = context.preferences.addons[__name__].preferences
+    prefs = context.preferences.addons[__package__].preferences
     if prefs.sprocket_path:
         return Path(prefs.sprocket_path)
-    return detect_sprocket_path()
+    return Path()
 
 def get_factions(context):
     path = get_sprocket_path(context) / "Factions"
@@ -105,14 +70,6 @@ class SprocketSceneProps(PropertyGroup):
 class SPROCKET_UL_blueprint_list(UIList):
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname):
         layout.label(text=item.name)
-
-class SPROCKET_OT_refresh_factions(Operator):
-    bl_idname = "sprocket.refresh_factions"
-    bl_label = "Refresh"
-
-    def execute(self, context):
-        bpy.ops.sprocket.load_faction_blueprints()
-        return {'FINISHED'}
 
 class SPROCKET_OT_load_faction_blueprints(Operator):
     bl_idname = "sprocket.load_faction_blueprints"
@@ -395,7 +352,7 @@ class SPROCKET_PT_import_panel(Panel):
 
         row = layout.row(align=True)
         row.prop(props, "faction")
-        row.operator("sprocket.refresh_factions", text="", icon='FILE_REFRESH')
+        row.operator("sprocket.load_faction_blueprints", text="", icon='FILE_REFRESH')
 
         layout.operator("sprocket.load_faction_blueprints")
 
@@ -422,12 +379,10 @@ class SPROCKET_PT_export_panel(Panel):
 
 classes = [
     SprocketPreferences,
-    SPROCKET_OT_detect_paths,
     SprocketBlueprintItem,
     SprocketFactionItem,
     SprocketSceneProps,
     SPROCKET_UL_blueprint_list,
-    SPROCKET_OT_refresh_factions,
     SPROCKET_OT_load_faction_blueprints,
     SPROCKET_OT_import_blueprint,
     SPROCKET_OT_export_compartment,
