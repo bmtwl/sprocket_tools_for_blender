@@ -4,7 +4,16 @@ Blender plugin for importing and exporting Sprocket tank blueprint files.
 
 This project used https://github.com/ArgoreOfficial/SPETS as a reference to understand the blueprint format.
 
-## Installation
+The Blender extension page is https://extensions.blender.org/add-ons/sprocket-tools/
+
+## Installation through Blender
+
+1. In the Blender interface, go to Edit > Preferences > Extensions
+2. Allow Blender to go online to look to extensions in the official repositories
+3. Search for "Sprocket Tools"
+4. Click the "Install" button
+
+## Manual Installation
 
 1. Download latest `sprocket_tools-x.x.x.zip` release
 2. Open Blender
